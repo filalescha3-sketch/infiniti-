@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Приглашение на свидание ✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Inter', sans-serif;
+      background: #0b0a0c;
+      padding: 20px;
+      background: radial-gradient(circle at 20% 30%, #1a0f1a, #0b080b 80%);
+      overflow-x: hidden;
+    }
+    .invitation-card {
+      position: relative;
+      max-width: 600px;
+      width: 100%;
+      background: rgba(20, 14, 20, 0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 56px;
+      padding: 40px 30px 45px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 200, 230, 0.08), inset 0 0 60px rgba(255, 180, 200, 0.03);
+      border: 1px solid rgba(255, 215, 235, 0.08);
+      text-align: center;
+      z-index: 2;
+      animation: fadeIn 1.5s ease;
+    }
+    @keyframes fadeIn { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
+    .content { position: relative; z-index: 3; }
+    .greeting-icon { font-size: 64px; line-height: 1; margin-bottom: 8px; display: inline-block; animation: floatIcon 4s ease-in-out infinite; }
+    @keyframes floatIcon { 0% { transform: translateY(0); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0); } }
+    .title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 2.9rem; background: linear-gradient(135deg, #fae3f0, #fbd3e0, #ffc1d6); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 12px; }
+    .subhead { font-size: 1.1rem; font-weight: 300; color: rgba(255, 220, 235, 0.7); letter-spacing: 1.5px; margin-bottom: 28px; border-top: 1px solid rgba(255, 200, 220, 0.1); border-bottom: 1px solid rgba(255, 200, 220, 0.1); padding: 14px 0; }
+    .subhead i { font-style: italic; color: #ffb3cb; }
+    .invitation-text { font-size: 1.2rem; line-height: 1.7; color: rgba(255, 235, 240, 0.85); font-weight: 300; margin: 22px 0 18px; }
+    .invitation-text strong { background: linear-gradient(135deg, #fccfe0, #ffb3cb); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .details-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 20px; margin: 28px 0 32px; }
+    .detail-item { background: rgba(255, 200, 220, 0.04); padding: 10px 22px; border-radius: 100px; border: 1px solid rgba(255, 200, 220, 0.08); color: rgba(255, 220, 235, 0.9); display: flex; align-items: center; gap: 12px; }
+    .detail-item .emoji-big { font-size: 1.6rem; }
+    .map-link { display: inline-block; margin: 6px 0 12px; color: #ffb3cb; text-decoration: none; padding: 8px 20px; border: 1px solid rgba(255, 180, 200, 0.15); border-radius: 50px; background: rgba(255, 200, 220, 0.03); }
+    .btn-invite { display: inline-block; background: linear-gradient(135deg, #f7b0cb, #f58bb0); border: none; padding: 20px 48px; border-radius: 80px; font-size: 1.5rem; font-weight: 600; color: #130b10; font-family: 'Playfair Display', serif; box-shadow: 0 12px 40px rgba(255, 100, 150, 0.4); cursor: pointer; margin: 10px 0 14px; border: 1px solid rgba(255, 255, 255, 0.2); text-transform: uppercase; transition: all 0.25s ease; }
+    .btn-invite:hover { transform: scale(1.04); box-shadow: 0 20px 50px rgba(255, 80, 140, 0.6); }
+    .btn-invite:active { transform: scale(0.96); }
+    .footer-note { margin-top: 30px; font-size: 0.9rem; color: rgba(255, 200, 215, 0.4); border-top: 1px solid rgba(255, 200, 215, 0.05); padding-top: 22px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .heart-pulse { display: inline-block; animation: pulseHeart 1.8s ease-in-out infinite; font-size: 1.2rem; }
+    @keyframes pulseHeart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.25); color: #ff7ca0; } }
+    .secret-gift { display: none; margin-top: 20px; padding: 20px; border-radius: 20px; background: rgba(255, 200, 220, 0.08); border: 1px solid rgba(255, 200, 220, 0.15); }
+    .secret-gift.show { display: block; animation: giftReveal 1s ease; }
+    @keyframes giftReveal { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
+    .secret-gift h3 { color: #ffb3cb; font-family: 'Playfair Display', serif; font-size: 1.5rem; }
+    .secret-gift .gift-code { display: inline-block; margin-top: 10px; padding: 8px 20px; background: rgba(255, 200, 220, 0.1); border-radius: 10px; font-family: monospace; font-size: 1.2rem; color: #ffb3cb; letter-spacing: 2px; }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+    .particle { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255, 200, 230, 0.4) 0%, rgba(255, 150, 200, 0.1) 80%); filter: blur(1px); animation: floatParticle linear infinite; opacity: 0.4; width: 6px; height: 6px; }
+    @keyframes floatParticle { 0% { transform: translateY(100vh) rotate(0deg) scale(0.6); opacity: 0; } 10% { opacity: 0.5; } 100% { transform: translateY(-10vh) rotate(720deg) scale(1.2); opacity: 0; } }
+    @media (max-width: 500px) { .invitation-card { padding: 30px 18px; } .title { font-size: 2.2rem; } .btn-invite { padding: 16px 30px; font-size: 1.2rem; width: 100%; } .greeting-icon { font-size: 48px; } }
+  </style>
+</head>
+<body>
+  <div class="particles" id="particlesContainer"></div>
+  <audio id="bgMusic" loop volume="0.2">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+  </audio>
+
+  <main class="invitation-card">
+    <div class="content">
+      <div class="greeting-icon" id="mainIcon">🌹</div>
+      <h1 class="title"><span id="mainTitle">Ты & Я</span></h1>
+      <div class="subhead"><i id="subText">«Одно свидание, чтобы всё изменить»</i></div>
+      <p class="invitation-text">В мире, полном случайностей, я хочу выбрать <strong>тебя</strong>.<br>Позволь пригласить тебя на вечер, где будут только смех,<br>тёплый свет и наши разговоры.<br><span style="font-size:1rem;color:rgba(255,200,220,0.6);">Обещаю, будет волшебно.</span></p>
+      
+      <div class="details-grid">
+        <div class="detail-item"><span class="emoji-big">📅</span> Понедельник, 27 июня</div>
+        <div class="detail-item"><span class="emoji-big">⏰</span> 18:30</div>
+        <div class="detail-item"><span class="emoji-big">🎬</span> Кинотеатр Синема 5</div>
+      </div>
+
+      <a href="https://www.google.com/maps/search/?api=1&query=Синема+5+Энгельс" target="_blank" class="map-link">📍 Показать на карте</a><br>
+
+      <button class="btn-invite" id="inviteButton">💫 Согласна?</button>
+
+      <div class="secret-gift" id="secretGift">
+        <h3>🎁 Сюрприз для тебя!</h3>
+        <p>Забирай скидку 20% на попкорн и напитки в Синема 5:</p>
+        <div class="gift-code">LOVE2026</div>
+        <p style="margin-top:10px;font-size:0.85rem;opacity:0.6;">Действует 27 июня</p>
+      </div>
+
+      <div class="footer-note">
+        <span>жду только твоего «да»</span>
+        <span class="heart-pulse">❤️</span>
+        <span>✨</span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function() {
+      const container = document.getElementById('particlesContainer');
+      for (let i = 0; i < 48; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const size = Math.random() * 6 + 3;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (Math.random() * 20 + 14) + 's';
+        particle.style.animationDelay = (Math.random() * 15) + 's';
+        particle.style.opacity = Math.random() * 0.35 + 0.15;
+        container.appendChild(particle);
+      }
+
+      const music = document.getElementById('bgMusic');
+      let musicStarted = false;
+      function startMusic() { if (!musicStarted) { music.play().catch(()=>{}); musicStarted = true; } }
+
+      const btn = document.getElementById('inviteButton');
+      let clickCount = 0;
+
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        startMusic();
+        clickCount++;
+
+        if (clickCount === 1) {
+          confetti({ particleCount: 200, spread: 90, origin: { y: 0.5, x: 0.5 } });
+          setTimeout(() => confetti({ particleCount: 150, spread: 70, origin: { y: 0.4, x: 0.3 } }), 300);
+          setTimeout(() => confetti({ particleCount: 150, spread: 70, origin: { y: 0.4, x: 0.7 } }), 600);
+          document.getElementById('secretGift').classList.add('show');
+          btn.innerHTML = '💖 Ты сделала меня счастливым!';
+          btn.style.background = 'linear-gradient(135deg, #fcc9dc, #f59ebd)';
+          document.getElementById('mainTitle').textContent = '✨ Да! ✨';
+          setTimeout(() => document.getElementById('mainTitle').textContent = 'Ты & Я', 2500);
+        } else if (clickCount === 2) {
+          confetti({ particleCount: 100, spread: 60, origin: { y: 0.6 } });
+          btn.innerHTML = '🥂 Жду с нетерпением!';
+          btn.style.background = 'linear-gradient(135deg, #f7c0d6, #f58bb0)';
+          document.getElementById('mainIcon').textContent = '🥂';
+          setTimeout(() => document.getElementById('mainIcon').textContent = '🌹', 2500);
+        } else if (clickCount === 3) {
+          confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
+          btn.innerHTML = '💋 Ты — моё вдохновение';
+          btn.style.background = 'linear-gradient(135deg, #fcc9dc, #f59ebd)';
+          document.getElementById('subText').textContent = '«Ты — моё самое красивое приключение»';
+          setTimeout(() => document.getElementById('subText').textContent = '«Одно свидание, чтобы всё изменить»', 3000);
+        } else {
+          btn.innerHTML = '💫 Согласна?';
+          btn.style.background = 'linear-gradient(135deg, #f7b0cb, #f58bb0)';
+          clickCount = 0;
+          document.getElementById('mainIcon').textContent = '🌹';
+          document.getElementById('mainTitle').textContent = 'Ты & Я';
+          document.getElementById('subText').textContent = '«Одно свидание, чтобы всё изменить»';
+        }
+        if (navigator.vibrate) navigator.vibrate(20);
+      });
+
+      document.addEventListener('click', startMusic);
+      document.addEventListener('touchstart', startMusic);
+    })();
+  </script>
+</body>
+</html>
