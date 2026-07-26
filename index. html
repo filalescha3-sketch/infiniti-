@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
@@ -80,91 +80,4 @@
       <div class="details-grid">
         <div class="detail-item"><span class="emoji-big">📅</span> Понедельник, 27 июня</div>
         <div class="detail-item"><span class="emoji-big">⏰</span> 18:30</div>
-        <div class="detail-item"><span class="emoji-big">🎬</span> Кинотеатр Синема 5</div>
-      </div>
-
-      <a href="https://www.google.com/maps/search/?api=1&query=Синема+5+Энгельс" target="_blank" class="map-link">📍 Показать на карте</a><br>
-
-      <button class="btn-invite" id="inviteButton">💫 Согласна?</button>
-
-      <div class="secret-gift" id="secretGift">
-        <h3>🎁 Сюрприз для тебя!</h3>
-        <p>Забирай скидку 20% на попкорн и напитки в Синема 5:</p>
-        <div class="gift-code">LOVE2026</div>
-        <p style="margin-top:10px;font-size:0.85rem;opacity:0.6;">Действует 27 июня</p>
-      </div>
-
-      <div class="footer-note">
-        <span>жду только твоего «да»</span>
-        <span class="heart-pulse">❤️</span>
-        <span>✨</span>
-      </div>
-    </div>
-  </main>
-
-  <script>
-    (function() {
-      const container = document.getElementById('particlesContainer');
-      for (let i = 0; i < 48; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        const size = Math.random() * 6 + 3;
-        particle.style.width = size + 'px';
-        particle.style.height = size + 'px';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDuration = (Math.random() * 20 + 14) + 's';
-        particle.style.animationDelay = (Math.random() * 15) + 's';
-        particle.style.opacity = Math.random() * 0.35 + 0.15;
-        container.appendChild(particle);
-      }
-
-      const music = document.getElementById('bgMusic');
-      let musicStarted = false;
-      function startMusic() { if (!musicStarted) { music.play().catch(()=>{}); musicStarted = true; } }
-
-      const btn = document.getElementById('inviteButton');
-      let clickCount = 0;
-
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        startMusic();
-        clickCount++;
-
-        if (clickCount === 1) {
-          confetti({ particleCount: 200, spread: 90, origin: { y: 0.5, x: 0.5 } });
-          setTimeout(() => confetti({ particleCount: 150, spread: 70, origin: { y: 0.4, x: 0.3 } }), 300);
-          setTimeout(() => confetti({ particleCount: 150, spread: 70, origin: { y: 0.4, x: 0.7 } }), 600);
-          document.getElementById('secretGift').classList.add('show');
-          btn.innerHTML = '💖 Ты сделала меня счастливым!';
-          btn.style.background = 'linear-gradient(135deg, #fcc9dc, #f59ebd)';
-          document.getElementById('mainTitle').textContent = '✨ Да! ✨';
-          setTimeout(() => document.getElementById('mainTitle').textContent = 'Ты & Я', 2500);
-        } else if (clickCount === 2) {
-          confetti({ particleCount: 100, spread: 60, origin: { y: 0.6 } });
-          btn.innerHTML = '🥂 Жду с нетерпением!';
-          btn.style.background = 'linear-gradient(135deg, #f7c0d6, #f58bb0)';
-          document.getElementById('mainIcon').textContent = '🥂';
-          setTimeout(() => document.getElementById('mainIcon').textContent = '🌹', 2500);
-        } else if (clickCount === 3) {
-          confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
-          btn.innerHTML = '💋 Ты — моё вдохновение';
-          btn.style.background = 'linear-gradient(135deg, #fcc9dc, #f59ebd)';
-          document.getElementById('subText').textContent = '«Ты — моё самое красивое приключение»';
-          setTimeout(() => document.getElementById('subText').textContent = '«Одно свидание, чтобы всё изменить»', 3000);
-        } else {
-          btn.innerHTML = '💫 Согласна?';
-          btn.style.background = 'linear-gradient(135deg, #f7b0cb, #f58bb0)';
-          clickCount = 0;
-          document.getElementById('mainIcon').textContent = '🌹';
-          document.getElementById('mainTitle').textContent = 'Ты & Я';
-          document.getElementById('subText').textContent = '«Одно свидание, чтобы всё изменить»';
-        }
-        if (navigator.vibrate) navigator.vibrate(20);
-      });
-
-      document.addEventListener('click', startMusic);
-      document.addEventListener('touchstart', startMusic);
-    })();
-  </script>
-</body>
 </html>
